@@ -38,14 +38,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Docker Hub Description
-        uses: peter-evans/dockerhub-description@v3
-        if: matrix.config.platform == 'linux/amd64'
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: libreddit/libreddit
-
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
@@ -53,7 +45,7 @@ jobs:
           file: ./${{ matrix.config.dockerfile }}
           platforms: ${{ matrix.config.platform }}
           push: true
-          tags: libreddit/libreddit:${{ matrix.config.tag }}
+          tags: smolgrrr/libreddit:${{ matrix.config.tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
   create-multiarch-manifest:
@@ -73,5 +65,5 @@ jobs:
         run: |
           docker buildx create --use
           docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 \
-            --tag libreddit/libreddit:latest --push .
+            --tag smolgrrr/libreddit:latest --push .
       

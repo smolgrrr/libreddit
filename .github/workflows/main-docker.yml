@@ -48,3 +48,11 @@ jobs:
           tags: smolgrrr/libreddit:${{ matrix.config.tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      
+      - name: Create and push manifest
+        run: |
+          docker manifest create smolgrrr/libreddit:latest \
+            --amend smolgrrr/libreddit:latest \
+            --amend smolgrrr/libreddit:latest-arm \
+            --amend smolgrrr/libreddit:latest-armv7
+          docker manifest push smolgrrr/libreddit:latest
